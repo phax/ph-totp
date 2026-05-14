@@ -1,9 +1,9 @@
-.idea
-target
-*.iml
+.idea/
+.settings/
+bin/
+target/
 
-# Eclipse
-.settings
 .project
 .classpath
-bin
+
+*.iml
