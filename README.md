@@ -123,3 +123,26 @@ mvn -Dgpg.skip=true clean install
 Apache License 2.0. See [`LICENSE.txt`](LICENSE.txt). The original `java-totp`
 codebase by Sam Stevens was MIT-licensed; that attribution is preserved in
 [`NOTICE.txt`](NOTICE.txt).
+
+
+# News and Noteworthy
+
+v2.0.0 - 2026-05-14
+* Forked from `samdjstevens/java-totp` v1.7.1 and relicensed Apache 2.0 (original MIT terms preserved in `NOTICE.txt`)
+* Java baseline raised to 17 (parent: `com.helger:parent-pom:3.0.3`)
+* Group ID changed to `com.helger`; root package changed to `com.helger.totp`
+* Split into two modules: `ph-totp` (logic + `otpauth://` URI builder, no image deps) and `ph-totp-qrcode` (ZXing PNG generator + `data:` URI helper)
+* Removed the `totp-spring-boot-starter` module
+* Removed the CircleCI configuration
+* Interfaces re-prefixed (`ICodeGenerator`, `ICodeVerifier`, `ITimeProvider`, `ISecretGenerator`, `IQrCodeImageGenerator`); enum re-prefixed (`EHashingAlgorithm`)
+* Renamed `ZxingPngQrGenerator` → `ZxingPngQrCodeImageGenerator`; moved to `ph-totp-qrcode`
+* Renamed `Utils.getDataUriForImage` → `DataUriEncoder.getDataUriForImage`; moved to `ph-totp-qrcode`
+* New constants holder `CTotp` for defaults (time period 30 s, discrepancy 1, code digits 6, secret length 32)
+* `TotpInfo` class removed
+* `InvalidParameterException` replaced with `IllegalArgumentException` in argument-validation paths
+* Applied ph- code style throughout (Hungarian notation, JSpecify annotations, Allman braces)
+* Tests migrated from JUnit 5 + Mockito to JUnit 4 with hand-rolled fakes
+* Dependency bumps: `commons-codec` → 1.22.0, `commons-net` → 3.13.0, `zxing` → 3.5.4
+* Added `org.jspecify:jspecify` 1.0.0 as a compile dependency
+
+v1.7.1 and earlier - upstream `samdjstevens/java-totp`. See its repository for history.
