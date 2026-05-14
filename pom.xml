@@ -1,195 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--
+
+    Copyright (C) 2026 Philip Helger (www.helger.com)
+    philip[at]helger[dot]com
+
+    Forked from samdjstevens/java-totp (Sam Stevens, MIT License); see NOTICE.txt.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>dev.samstevens.totp</groupId>
-  <artifactId>totp-parent</artifactId>
+  <parent>
+    <groupId>com.helger</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>3.0.3</version>
+  </parent>
+  <artifactId>ph-totp-parent-pom</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <version>1.7.1</version>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-
-   <name>${project.groupId}:${project.artifactId}</name>
-   <description>A library to help implement time-based one time passwords to enable MFA.</description>
-
-  <url>https://github.com/samdjstevens/java-totp</url>
-
-  <developers>
-    <developer>
-      <name>Sam Stevens</name>
-      <email>samdjstevens@googlemail.com</email>
-      <organizationUrl>https://github.com/samdjstevens</organizationUrl>
-    </developer>
-  </developers>
-
-  <scm>
-    <developerConnection>scm:git:git@github.com:samdjstevens/java-totp.git</developerConnection>
-    <tag>totp-1.7.1</tag>
-    <url>https://github.com/samdjstevens/java-totp</url>
-  </scm>
+  <name>ph-totp-parent-pom</name>
+  <description>Base POM to build the ph-totp projects</description>
+  <url>https://github.com/phax/ph-totp</url>
+  <inceptionYear>2026</inceptionYear>
 
   <licenses>
     <license>
-      <name>MIT License</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <name>Apache 2</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
+  <scm>
+    <connection>scm:git:https://github.com/phax/ph-totp.git</connection>
+    <developerConnection>scm:git:https://github.com/phax/ph-totp.git</developerConnection>
+    <url>https://github.com/phax/ph-totp</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <organization>
+    <name>Philip Helger</name>
+    <url>https://www.helger.com</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>philip</id>
+      <name>Philip Helger</name>
+      <email>ph(at)helger.com</email>
+      <url>https://www.helger.com</url>
+    </developer>
+    <developer>
+      <name>Sam Stevens</name>
+      <email>samdjstevens(at)googlemail.com</email>
+      <url>https://github.com/samdjstevens</url>
+      <roles>
+        <role>Original author of upstream java-totp</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <properties>
+    <commons-codec.version>1.22.0</commons-codec.version>
+    <commons-net.version>3.13.0</commons-net.version>
+    <zxing.version>3.5.4</zxing.version>
+    <jspecify.version>1.0.0</jspecify.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.helger</groupId>
+        <artifactId>ph-totp</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.helger</groupId>
+        <artifactId>ph-totp-qrcode</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${jspecify.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>${commons-codec.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-net</groupId>
+        <artifactId>commons-net</artifactId>
+        <version>${commons-net.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <modules>
-    <module>totp-spring-boot-starter</module>
-    <module>totp</module>
+    <module>ph-totp</module>
+    <module>ph-totp-qrcode</module>
   </modules>
-  <build>
-
-      <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-          <plugins>
-              <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
-              <plugin>
-                  <artifactId>maven-clean-plugin</artifactId>
-                  <version>3.1.0</version>
-              </plugin>
-              <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-              <plugin>
-                  <artifactId>maven-resources-plugin</artifactId>
-                  <version>3.0.2</version>
-              </plugin>
-              <plugin>
-                  <artifactId>maven-compiler-plugin</artifactId>
-                  <version>3.8.1</version>
-              </plugin>
-              <plugin>
-                  <artifactId>maven-surefire-plugin</artifactId>
-                  <version>2.22.2</version>
-                  <configuration>
-                      <useSystemClassLoader>false</useSystemClassLoader>
-                  </configuration>
-              </plugin>
-              <plugin>
-                  <artifactId>maven-jar-plugin</artifactId>
-                  <version>3.0.2</version>
-              </plugin>
-              <plugin>
-                  <artifactId>maven-install-plugin</artifactId>
-                  <version>2.5.2</version>
-              </plugin>
-              <plugin>
-                  <artifactId>maven-deploy-plugin</artifactId>
-                  <version>2.8.2</version>
-              </plugin>
-              <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
-              <plugin>
-                  <artifactId>maven-site-plugin</artifactId>
-                  <version>3.8.2</version>
-              </plugin>
-              <plugin>
-                  <artifactId>maven-project-info-reports-plugin</artifactId>
-                  <version>3.0.0</version>
-              </plugin>
-          </plugins>
-      </pluginManagement>
-
-    <plugins>
-
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>8</source>
-                <target>8</target>
-            </configuration>
-        </plugin>
-
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.0</version>
-          <executions>
-              <execution>
-                  <id>attach-sources</id>
-                  <goals>
-                      <goal>jar-no-fork</goal>
-                  </goals>
-              </execution>
-          </executions>
-      </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.1.1</version>
-          <executions>
-              <execution>
-                  <id>attach-javadocs</id>
-                  <goals>
-                      <goal>jar</goal>
-                  </goals>
-              </execution>
-          </executions>
-      </plugin>
-      <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.6.7</version>
-          <extensions>true</extensions>
-          <configuration>
-              <serverId>ossrh</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-          </configuration>
-      </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
-          <executions>
-              <execution>
-                  <id>sign-artifacts</id>
-                  <phase>verify</phase>
-                  <goals>
-                      <goal>sign</goal>
-                  </goals>
-              </execution>
-          </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.5</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <!-- attached to Maven test phase -->
-          <execution>
-            <id>report</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.3.0</version>
-      </plugin>
-    </plugins>
-  </build>
 </project>
