@@ -18,12 +18,13 @@
  */
 package com.helger.totp.code;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 /**
  * Hashing algorithms supported by the TOTP code generator. The friendly name matches the
- * <code>algorithm</code> field of an <code>otpauth://</code> URI per the Google Authenticator
- * Key URI Format.
+ * <code>algorithm</code> field of an <code>otpauth://</code> URI per the Google Authenticator Key
+ * URI Format.
  *
  * @author Philip Helger
  */
@@ -37,17 +38,19 @@ public enum EHashingAlgorithm
   private final String m_sHmacAlgorithm;
   private final String m_sFriendlyName;
 
-  EHashingAlgorithm (final String sHmacAlgorithm, final String sFriendlyName)
+  EHashingAlgorithm (@NonNull final String sHmacAlgorithm, @NonNull final String sFriendlyName)
   {
     m_sHmacAlgorithm = sHmacAlgorithm;
     m_sFriendlyName = sFriendlyName;
   }
 
+  @NonNull
   public String getHmacAlgorithm ()
   {
     return m_sHmacAlgorithm;
   }
 
+  @NonNull
   public String getFriendlyName ()
   {
     return m_sFriendlyName;

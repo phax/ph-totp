@@ -18,6 +18,7 @@
  */
 package com.helger.totp.exception;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -29,12 +30,12 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public class TimeProviderException extends RuntimeException
 {
-  public TimeProviderException (final String sMessage)
+  public TimeProviderException (@NonNull final String sMessage)
   {
     super (sMessage);
   }
 
-  public TimeProviderException (final String sMessage, @Nullable final Throwable aCause)
+  public TimeProviderException (@NonNull final String sMessage, @Nullable final Throwable aCause)
   {
     super (sMessage, aCause);
   }

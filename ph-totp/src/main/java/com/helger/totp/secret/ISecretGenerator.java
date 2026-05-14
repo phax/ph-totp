@@ -18,6 +18,7 @@
  */
 package com.helger.totp.secret;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -29,8 +30,9 @@ import org.jspecify.annotations.NullMarked;
 public interface ISecretGenerator
 {
   /**
-   * @return A random Base32-encoded string suitable for use as the shared secret between the
-   *         server and the authenticator client.
+   * @return A random Base32-encoded string suitable for use as the shared secret between the server
+   *         and the authenticator client.
    */
+  @NonNull
   String generate ();
 }

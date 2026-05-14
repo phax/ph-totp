@@ -21,6 +21,7 @@ package com.helger.totp.qr;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -49,7 +50,7 @@ public class QrData
   private QrData (@Nullable final String sLabel,
                   @Nullable final String sSecret,
                   @Nullable final String sIssuer,
-                  final String sAlgorithm,
+                  @NonNull final String sAlgorithm,
                   final int nDigits,
                   final int nPeriod)
   {
@@ -61,6 +62,7 @@ public class QrData
     m_nPeriod = nPeriod;
   }
 
+  @NonNull
   public String getType ()
   {
     return TYPE;
@@ -84,6 +86,7 @@ public class QrData
     return m_sIssuer;
   }
 
+  @NonNull
   public String getAlgorithm ()
   {
     return m_sAlgorithm;
@@ -102,6 +105,7 @@ public class QrData
   /**
    * @return The <code>otpauth://</code> URI representing this enrollment.
    */
+  @NonNull
   public String getUri ()
   {
     return "otpauth://" +
@@ -121,6 +125,7 @@ public class QrData
            m_nPeriod;
   }
 
+  @NonNull
   private static String _uriEncode (@Nullable final String sText)
   {
     if (sText == null)
@@ -137,42 +142,49 @@ public class QrData
     private int m_nDigits = CTotp.DEFAULT_CODE_DIGITS;
     private int m_nPeriod = CTotp.DEFAULT_TIME_PERIOD_SECS;
 
+    @NonNull
     public Builder label (@Nullable final String sLabel)
     {
       m_sLabel = sLabel;
       return this;
     }
 
+    @NonNull
     public Builder secret (@Nullable final String sSecret)
     {
       m_sSecret = sSecret;
       return this;
     }
 
+    @NonNull
     public Builder issuer (@Nullable final String sIssuer)
     {
       m_sIssuer = sIssuer;
       return this;
     }
 
+    @NonNull
     public Builder algorithm (final EHashingAlgorithm eAlgorithm)
     {
       m_eAlgorithm = eAlgorithm;
       return this;
     }
 
+    @NonNull
     public Builder digits (final int nDigits)
     {
       m_nDigits = nDigits;
       return this;
     }
 
+    @NonNull
     public Builder period (final int nPeriod)
     {
       m_nPeriod = nPeriod;
       return this;
     }
 
+    @NonNull
     public QrData build ()
     {
       return new QrData (m_sLabel, m_sSecret, m_sIssuer, m_eAlgorithm.getFriendlyName (), m_nDigits, m_nPeriod);

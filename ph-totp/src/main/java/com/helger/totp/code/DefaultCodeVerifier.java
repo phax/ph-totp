@@ -20,6 +20,7 @@ package com.helger.totp.code;
 
 import java.nio.charset.StandardCharsets;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 import com.helger.totp.CTotp;
@@ -31,9 +32,9 @@ import com.helger.totp.time.ITimeProvider;
  * <p>
  * Two security invariants are intentional:
  * <ul>
- *   <li>The verifier always iterates over the full discrepancy window, even after a successful
- *   match, to avoid timing leaks.</li>
- *   <li>Code comparison is constant-time on the byte representation.</li>
+ * <li>The verifier always iterates over the full discrepancy window, even after a successful match,
+ * to avoid timing leaks.</li>
+ * <li>Code comparison is constant-time on the byte representation.</li>
  * </ul>
  *
  * @author Philip Helger
@@ -46,7 +47,7 @@ public class DefaultCodeVerifier implements ICodeVerifier
   private int m_nTimePeriod = CTotp.DEFAULT_TIME_PERIOD_SECS;
   private int m_nAllowedTimePeriodDiscrepancy = CTotp.DEFAULT_TIME_PERIOD_DISCREPANCY;
 
-  public DefaultCodeVerifier (final ICodeGenerator aCodeGenerator, final ITimeProvider aTimeProvider)
+  public DefaultCodeVerifier (@NonNull final ICodeGenerator aCodeGenerator, final ITimeProvider aTimeProvider)
   {
     m_aCodeGenerator = aCodeGenerator;
     m_aTimeProvider = aTimeProvider;
@@ -57,6 +58,7 @@ public class DefaultCodeVerifier implements ICodeVerifier
     return m_nTimePeriod;
   }
 
+  @NonNull
   public final DefaultCodeVerifier setTimePeriod (final int nTimePeriod)
   {
     m_nTimePeriod = nTimePeriod;
@@ -74,19 +76,20 @@ public class DefaultCodeVerifier implements ICodeVerifier
     return this;
   }
 
-  @Override
-  public boolean isValidCode (final String sSecret, final String sCode)
+  private static boolean _timeSafeStringComparison (@NonNull final String sA, @NonNull final String sB)
   {
-    final long nCurrentBucket = Math.floorDiv (m_aTimeProvider.getTime (), m_nTimePeriod);
+    final byte [] aA = sA.getBytes (StandardCharsets.UTF_8);
+    final byte [] aB = sB.getBytes (StandardCharsets.UTF_8);
+    if (aA.length != aB.length)
+      return false;
 
-    // Iterate over the full window even after a match — avoids timing leak
-    boolean bSuccess = false;
-    for (int i = -m_nAllowedTimePeriodDiscrepancy; i <= m_nAllowedTimePeriodDiscrepancy; i++)
-      bSuccess = _checkCode (sSecret, nCurrentBucket + i, sCode) || bSuccess;
-    return bSuccess;
+    int nResult = 0;
+    for (int i = 0; i < aA.length; i++)
+      nResult |= aA[i] ^ aB[i];
+    return nResult == 0;
   }
 
-  private boolean _checkCode (final String sSecret, final long nCounter, final String sCode)
+  private boolean _checkCode (@NonNull final String sSecret, final long nCounter, @NonNull final String sCode)
   {
     try
     {
@@ -99,16 +102,15 @@ public class DefaultCodeVerifier implements ICodeVerifier
     }
   }
 
-  private static boolean _timeSafeStringComparison (final String sA, final String sB)
+  @Override
+  public boolean isValidCode (@NonNull final String sSecret, @NonNull final String sCode)
   {
-    final byte [] aA = sA.getBytes (StandardCharsets.UTF_8);
-    final byte [] aB = sB.getBytes (StandardCharsets.UTF_8);
-    if (aA.length != aB.length)
-      return false;
+    final long nCurrentBucket = Math.floorDiv (m_aTimeProvider.getTime (), m_nTimePeriod);
 
-    int nResult = 0;
-    for (int i = 0; i < aA.length; i++)
-      nResult |= aA[i] ^ aB[i];
-    return nResult == 0;
+    // Iterate over the full window even after a match — avoids timing leak
+    boolean bSuccess = false;
+    for (int i = -m_nAllowedTimePeriodDiscrepancy; i <= m_nAllowedTimePeriodDiscrepancy; i++)
+      bSuccess = _checkCode (sSecret, nCurrentBucket + i, sCode) || bSuccess;
+    return bSuccess;
   }
 }

@@ -18,6 +18,7 @@
  */
 package com.helger.totp.code;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -35,5 +36,5 @@ public interface ICodeVerifier
    *        The n-digit code given by the end user to check.
    * @return <code>true</code> if the code is valid, <code>false</code> otherwise.
    */
-  boolean isValidCode (String sSecret, String sCode);
+  boolean isValidCode (@NonNull String sSecret, @NonNull String sCode);
 }

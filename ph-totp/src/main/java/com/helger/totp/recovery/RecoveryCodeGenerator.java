@@ -22,13 +22,14 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 /**
  * Generates MFA recovery codes.
  * <p>
- * Codes are 16 lowercase alphanumeric characters split into 4 dash-separated groups
- * (e.g. <code>4ckn-xspn-et8t-xgr0</code>), giving ~82 bits of entropy:
+ * Codes are 16 lowercase alphanumeric characters split into 4 dash-separated groups (e.g.
+ * <code>4ckn-xspn-et8t-xgr0</code>), giving ~82 bits of entropy:
  * <code>log(36^16) / log(2) ≈ 82.7</code>.
  *
  * @author Philip Helger
@@ -42,16 +43,7 @@ public class RecoveryCodeGenerator
 
   private final Random m_aRandom = new SecureRandom ();
 
-  public String [] generateCodes (final int nAmount)
-  {
-    if (nAmount < 1)
-      throw new IllegalArgumentException ("Amount must be at least 1.");
-
-    final String [] aCodes = new String [nAmount];
-    Arrays.setAll (aCodes, i -> _generateCode ());
-    return aCodes;
-  }
-
+  @NonNull
   private String _generateCode ()
   {
     final StringBuilder aCode = new StringBuilder (CODE_LENGTH + (CODE_LENGTH / GROUPS_NBR) - 1);
@@ -62,5 +54,16 @@ public class RecoveryCodeGenerator
         aCode.append ('-');
     }
     return aCode.toString ();
+  }
+
+  @NonNull
+  public String [] generateCodes (final int nAmount)
+  {
+    if (nAmount < 1)
+      throw new IllegalArgumentException ("Amount must be at least 1.");
+
+    final String [] aCodes = new String [nAmount];
+    Arrays.setAll (aCodes, i -> _generateCode ());
+    return aCodes;
   }
 }

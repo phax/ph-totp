@@ -22,6 +22,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base32;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 import com.helger.totp.CTotp;
@@ -43,12 +44,12 @@ public class DefaultCodeGenerator implements ICodeGenerator
     this (EHashingAlgorithm.SHA1, CTotp.DEFAULT_CODE_DIGITS);
   }
 
-  public DefaultCodeGenerator (final EHashingAlgorithm eAlgorithm)
+  public DefaultCodeGenerator (@NonNull final EHashingAlgorithm eAlgorithm)
   {
     this (eAlgorithm, CTotp.DEFAULT_CODE_DIGITS);
   }
 
-  public DefaultCodeGenerator (final EHashingAlgorithm eAlgorithm, final int nDigits)
+  public DefaultCodeGenerator (@NonNull final EHashingAlgorithm eAlgorithm, final int nDigits)
   {
     if (eAlgorithm == null)
       throw new IllegalArgumentException ("HashingAlgorithm must not be null.");
@@ -59,6 +60,7 @@ public class DefaultCodeGenerator implements ICodeGenerator
     m_nDigits = nDigits;
   }
 
+  @NonNull
   public final EHashingAlgorithm getAlgorithm ()
   {
     return m_eAlgorithm;
@@ -69,21 +71,8 @@ public class DefaultCodeGenerator implements ICodeGenerator
     return m_nDigits;
   }
 
-  @Override
-  public String generate (final String sSecret, final long nCounter) throws CodeGenerationException
-  {
-    try
-    {
-      final byte [] aHash = _generateHash (sSecret, nCounter);
-      return _getDigitsFromHash (aHash);
-    }
-    catch (final Exception ex)
-    {
-      throw new CodeGenerationException ("Failed to generate code. See nested exception.", ex);
-    }
-  }
-
-  private byte [] _generateHash (final String sKey, final long nCounter) throws Exception
+  @NonNull
+  private byte [] _generateHash (@NonNull final String sKey, final long nCounter) throws Exception
   {
     final byte [] aData = new byte [8];
     long nValue = nCounter;
@@ -97,7 +86,8 @@ public class DefaultCodeGenerator implements ICodeGenerator
     return aMac.doFinal (aData);
   }
 
-  private String _getDigitsFromHash (final byte [] aHash)
+  @NonNull
+  private String _getDigitsFromHash (@NonNull final byte [] aHash)
   {
     final int nOffset = aHash[aHash.length - 1] & 0xF;
 
@@ -110,6 +100,21 @@ public class DefaultCodeGenerator implements ICodeGenerator
     nTruncated &= 0x7FFFFFFF;
     nTruncated %= (long) Math.pow (10, m_nDigits);
 
-    return String.format ("%0" + m_nDigits + "d", Long.valueOf (nTruncated));
+    final String s = Long.toString (nTruncated);
+    return "0".repeat (Math.max (0, m_nDigits - s.length ())) + s;
+  }
+
+  @NonNull
+  public String generate (@NonNull final String sSecret, final long nCounter) throws CodeGenerationException
+  {
+    try
+    {
+      final byte [] aHash = _generateHash (sSecret, nCounter);
+      return _getDigitsFromHash (aHash);
+    }
+    catch (final Exception ex)
+    {
+      throw new CodeGenerationException ("Failed to generate code. See nested exception.", ex);
+    }
   }
 }

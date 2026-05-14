@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 import org.apache.commons.codec.binary.Base32;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 import com.helger.totp.CTotp;
@@ -46,8 +47,8 @@ public class DefaultSecretGenerator implements ISecretGenerator
 
   /**
    * @param nNumCharacters
-   *        The number of Base32 characters the secret should consist of. Must be a multiple of 8
-   *        to avoid Base32 padding.
+   *        The number of Base32 characters the secret should consist of. Must be a multiple of 8 to
+   *        avoid Base32 padding.
    */
   public DefaultSecretGenerator (final int nNumCharacters)
   {
@@ -59,7 +60,7 @@ public class DefaultSecretGenerator implements ISecretGenerator
     return m_nNumCharacters;
   }
 
-  @Override
+  @NonNull
   public String generate ()
   {
     // 5 bits per Base32 character

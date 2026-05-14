@@ -18,6 +18,7 @@
  */
 package com.helger.totp.code;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 import com.helger.totp.exception.CodeGenerationException;
@@ -39,5 +40,6 @@ public interface ICodeGenerator
    * @throws CodeGenerationException
    *         if the code generation fails for any reason.
    */
-  String generate (String sSecret, long nCounter) throws CodeGenerationException;
+  @NonNull
+  String generate (@NonNull String sSecret, long nCounter) throws CodeGenerationException;
 }

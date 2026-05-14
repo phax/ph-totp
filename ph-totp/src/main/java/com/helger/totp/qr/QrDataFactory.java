@@ -18,13 +18,14 @@
  */
 package com.helger.totp.qr;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 import com.helger.totp.code.EHashingAlgorithm;
 
 /**
- * Produces preconfigured {@link QrData.Builder} instances with shared defaults for algorithm,
- * digit count, and period.
+ * Produces preconfigured {@link QrData.Builder} instances with shared defaults for algorithm, digit
+ * count, and period.
  *
  * @author Philip Helger
  */
@@ -35,7 +36,7 @@ public class QrDataFactory
   private final int m_nDefaultDigits;
   private final int m_nDefaultTimePeriod;
 
-  public QrDataFactory (final EHashingAlgorithm eDefaultAlgorithm,
+  public QrDataFactory (@NonNull final EHashingAlgorithm eDefaultAlgorithm,
                         final int nDefaultDigits,
                         final int nDefaultTimePeriod)
   {
@@ -44,6 +45,7 @@ public class QrDataFactory
     m_nDefaultTimePeriod = nDefaultTimePeriod;
   }
 
+  @NonNull
   public final EHashingAlgorithm getDefaultAlgorithm ()
   {
     return m_eDefaultAlgorithm;
@@ -59,8 +61,10 @@ public class QrDataFactory
     return m_nDefaultTimePeriod;
   }
 
-  public QrData.Builder newBuilder ()
+  public QrData.@NonNull Builder newBuilder ()
   {
-    return new QrData.Builder ().algorithm (m_eDefaultAlgorithm).digits (m_nDefaultDigits).period (m_nDefaultTimePeriod);
+    return new QrData.Builder ().algorithm (m_eDefaultAlgorithm)
+                                .digits (m_nDefaultDigits)
+                                .period (m_nDefaultTimePeriod);
   }
 }

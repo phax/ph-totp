@@ -18,6 +18,7 @@
  */
 package com.helger.totp.exception;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -30,7 +31,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public class CodeGenerationException extends Exception
 {
-  public CodeGenerationException (final String sMessage, @Nullable final Throwable aCause)
+  public CodeGenerationException (@NonNull final String sMessage, @Nullable final Throwable aCause)
   {
     super (sMessage, aCause);
   }
