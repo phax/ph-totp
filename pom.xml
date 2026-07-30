@@ -74,7 +74,7 @@
   <properties>
     <commons-codec.version>1.22.0</commons-codec.version>
     <commons-net.version>3.13.0</commons-net.version>
-    <jspecify.version>1.0.0</jspecify.version>
+    <jspecify.version>1.0.1</jspecify.version>
     <zxing.version>3.5.4</zxing.version>
   </properties>
 
