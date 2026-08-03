@@ -1,7 +1,11 @@
 # ph-totp
 
+<!-- ph-badge-start -->
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger/ph-totp-parent-pom/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger/ph-totp-parent-pom/)
 [![javadoc](https://javadoc.io/badge2/com.helger/ph-totp/javadoc.svg)](https://javadoc.io/doc/com.helger/ph-totp)
-[![Maven Central](https://img.shields.io/maven-central/v/com.helger/ph-totp.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.helger%22%20AND%20a:%22ph-totp%22)
+
+> If this project saved you some time or made your day a little easier, a star would mean a lot — it helps others find it too.
+<!-- ph-badge-end -->
 
 A Java 17+ library for generating and verifying [Time-based One-Time
 Passwords (TOTP)](https://datatracker.ietf.org/doc/html/rfc6238) for Multi-Factor
@@ -146,3 +150,8 @@ v2.0.0 - 2026-05-14
 * Added `org.jspecify:jspecify` 1.0.0 as a compile dependency
 
 v1.7.1 and earlier - upstream `samdjstevens/java-totp`. See its repository for history.
+
+---
+
+My personal [Coding Styleguide](https://github.com/phax/meta/blob/master/CodingStyleguide.md) |
+It is appreciated if you star the GitHub project if you like it.
