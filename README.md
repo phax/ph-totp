@@ -90,6 +90,30 @@ digit count **must match** what was encoded in the `otpauth://` URI.
 The verifier loops over the full discrepancy window even after a successful
 match (avoids timing leaks) and uses constant-time byte comparison.
 
+### Reject a replayed code
+
+`isValidCode` alone cannot tell you whether a code was already used: a code is
+accepted anywhere inside the discrepancy window, so the same one-time password
+stays valid across more than one time slot. Use `getMatchingTimeSlot` to learn
+which slot the code really belongs to, remember it per user, and reject
+anything that is not newer:
+
+```java
+Long aSlot = aVerifier.getMatchingTimeSlot (sSecret, sUserSubmittedCode);
+if (aSlot == null)
+  return false;
+// aLastUsedSlot is the value stored on the previous successful login
+if (aLastUsedSlot != null && aSlot.longValue () <= aLastUsedSlot.longValue ())
+  return false;
+storeLastUsedSlot (aSlot);
+return true;
+```
+
+Storing `getCurrentTimeSlot ()` instead would **not** work: a code matched in
+slot `N` and replayed during slot `N+1` is still inside the window, and the
+stored value would have advanced past it. Persist the returned slot, and make
+the compare-and-store atomic if concurrent logins are possible.
+
 ### NTP time provider
 
 If the system clock is unreliable, fetch time from an NTP server. Requires the
@@ -130,6 +154,11 @@ codebase by Sam Stevens was MIT-licensed; that attribution is preserved in
 
 
 # News and Noteworthy
+
+v2.1.0 - 2026-09-09
+* Added `ICodeVerifier.getMatchingTimeSlot (String, String)` returning the time slot a code matched, or `null` - the basis for rejecting a replayed one-time password
+* `ICodeVerifier.isValidCode (String, String)` is now a `default` method delegating to `getMatchingTimeSlot`. Custom implementations of `ICodeVerifier` must implement `getMatchingTimeSlot` instead
+* Added `DefaultCodeVerifier.getCurrentTimeSlot ()` so callers no longer need to duplicate the bucket arithmetic
 
 v2.0.0 - 2026-05-14
 * Forked from `samdjstevens/java-totp` v1.7.1 and relicensed Apache 2.0 (original MIT terms preserved in `NOTICE.txt`)

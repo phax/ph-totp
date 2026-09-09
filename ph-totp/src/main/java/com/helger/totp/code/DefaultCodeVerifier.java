@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import com.helger.totp.CTotp;
 import com.helger.totp.exception.CodeGenerationException;
@@ -102,15 +103,31 @@ public class DefaultCodeVerifier implements ICodeVerifier
     }
   }
 
-  @Override
-  public boolean isValidCode (@NonNull final String sSecret, @NonNull final String sCode)
+  /**
+   * @return The time slot ("bucket") that is currently valid, based on the contained time provider
+   *         and the configured time period.
+   * @since 2.1.0
+   */
+  public final long getCurrentTimeSlot ()
   {
-    final long nCurrentBucket = Math.floorDiv (m_aTimeProvider.getTime (), m_nTimePeriod);
+    return Math.floorDiv (m_aTimeProvider.getTime (), m_nTimePeriod);
+  }
 
-    // Iterate over the full window even after a match — avoids timing leak
-    boolean bSuccess = false;
+  @Nullable
+  public Long getMatchingTimeSlot (@NonNull final String sSecret, @NonNull final String sCode)
+  {
+    final long nCurrentBucket = getCurrentTimeSlot ();
+
+    // Iterate over the full window even after a match — avoids timing leak.
+    // Ascending order means the latest matching bucket wins, which is the safe choice for the
+    // replay protection built on top of this value.
+    Long ret = null;
     for (int i = -m_nAllowedTimePeriodDiscrepancy; i <= m_nAllowedTimePeriodDiscrepancy; i++)
-      bSuccess = _checkCode (sSecret, nCurrentBucket + i, sCode) || bSuccess;
-    return bSuccess;
+    {
+      final long nBucket = nCurrentBucket + i;
+      if (_checkCode (sSecret, nBucket, sCode))
+        ret = Long.valueOf (nBucket);
+    }
+    return ret;
   }
 }
