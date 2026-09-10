@@ -64,7 +64,8 @@ public final class DefaultCodeVerifierTest
     final ICodeGenerator aFailingGen = (sec, ctr) -> {
       throw new CodeGenerationException ("Test", new RuntimeException ());
     };
-    final DefaultCodeVerifier aVerifier = new DefaultCodeVerifier (aFailingGen, aTime).setAllowedTimePeriodDiscrepancy (1);
+    final DefaultCodeVerifier aVerifier = new DefaultCodeVerifier (aFailingGen, aTime).setAllowedTimePeriodDiscrepancy (
+                                                                                                                        1);
     assertFalse (aVerifier.isValidCode (sSecret, "1234"));
   }
 
@@ -118,7 +119,8 @@ public final class DefaultCodeVerifierTest
     final ICodeGenerator aFailingGen = (sec, ctr) -> {
       throw new CodeGenerationException ("Test", new RuntimeException ());
     };
-    final DefaultCodeVerifier aVerifier = new DefaultCodeVerifier (aFailingGen, aTime).setAllowedTimePeriodDiscrepancy (1);
+    final DefaultCodeVerifier aVerifier = new DefaultCodeVerifier (aFailingGen, aTime).setAllowedTimePeriodDiscrepancy (
+                                                                                                                        1);
     assertNull (aVerifier.getMatchingTimeSlot (sSecret, "1234"));
   }
 
@@ -126,14 +128,16 @@ public final class DefaultCodeVerifierTest
   public void testGetCurrentTimeSlot ()
   {
     final ITimeProvider aTime = () -> 1567975936L;
-    final DefaultCodeVerifier aVerifier = new DefaultCodeVerifier (new DefaultCodeGenerator (), aTime).setTimePeriod (30);
+    final DefaultCodeVerifier aVerifier = new DefaultCodeVerifier (new DefaultCodeGenerator (), aTime).setTimePeriod (
+                                                                                                                      30);
     assertEquals (Math.floorDiv (1567975936L, 30), aVerifier.getCurrentTimeSlot ());
   }
 
   private static boolean _verify (final String sSecret, final String sCode, final long nTime, final int nPeriod)
   {
     final ITimeProvider aTime = () -> nTime;
-    return new DefaultCodeVerifier (new DefaultCodeGenerator (), aTime).setTimePeriod (nPeriod).isValidCode (sSecret, sCode);
+    return new DefaultCodeVerifier (new DefaultCodeGenerator (), aTime).setTimePeriod (nPeriod)
+                                                                       .isValidCode (sSecret, sCode);
   }
 
   private static Long _slot (final String sSecret, final String sCode, final long nTime, final int nPeriod)

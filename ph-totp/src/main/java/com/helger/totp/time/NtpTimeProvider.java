@@ -62,8 +62,8 @@ public class NtpTimeProvider implements ITimeProvider
     this (sNtpHostname, DEFAULT_TIMEOUT);
   }
 
-  public NtpTimeProvider (@NonNull final String sNtpHostname, @NonNull final Duration aTimeout)
-                                                                                                throws UnknownHostException
+  public NtpTimeProvider (@NonNull final String sNtpHostname,
+                          @NonNull final Duration aTimeout) throws UnknownHostException
   {
     this (sNtpHostname, aTimeout, COMMONS_NET_PROBE_CLASS);
   }
@@ -71,8 +71,9 @@ public class NtpTimeProvider implements ITimeProvider
   /**
    * Package-private constructor used by tests to inject a non-existing probe class name.
    */
-  NtpTimeProvider (@NonNull final String sNtpHostname, @NonNull final Duration aTimeout, final String sDependentClass)
-                                                                                                                       throws UnknownHostException
+  NtpTimeProvider (@NonNull final String sNtpHostname,
+                   @NonNull final Duration aTimeout,
+                   final String sDependentClass) throws UnknownHostException
   {
     _checkHasDependency (sDependentClass);
 

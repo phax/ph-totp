@@ -28,7 +28,10 @@ public final class CTotp
   /** Default TOTP time period in seconds. */
   public static final int DEFAULT_TIME_PERIOD_SECS = 30;
 
-  /** Default discrepancy used when verifying a code (number of buckets before/after the current one). */
+  /**
+   * Default discrepancy used when verifying a code (number of buckets before/after the current
+   * one).
+   */
   public static final int DEFAULT_TIME_PERIOD_DISCREPANCY = 1;
 
   /** Default number of digits in a generated code. */

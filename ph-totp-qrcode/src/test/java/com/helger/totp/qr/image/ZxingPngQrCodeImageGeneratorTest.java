@@ -85,8 +85,10 @@ public final class ZxingPngQrCodeImageGeneratorTest
     final Writer aFailingWriter = new Writer ()
     {
       @Override
-      public BitMatrix encode (final String sContents, final BarcodeFormat eFormat, final int nWidth, final int nHeight)
-                                                                                                                        throws WriterException
+      public BitMatrix encode (final String sContents,
+                               final BarcodeFormat eFormat,
+                               final int nWidth,
+                               final int nHeight) throws WriterException
       {
         throw aWriterFailure;
       }

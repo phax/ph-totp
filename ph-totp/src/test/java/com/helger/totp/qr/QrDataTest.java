@@ -57,6 +57,7 @@ public final class QrDataTest
                                               .period (30)
                                               .build ();
 
-    assertEquals ("otpauth://totp/?secret=&issuer=AppName%20AppCorp&algorithm=SHA256&digits=6&period=30", aData.getUri ());
+    assertEquals ("otpauth://totp/?secret=&issuer=AppName%20AppCorp&algorithm=SHA256&digits=6&period=30",
+                  aData.getUri ());
   }
 }
