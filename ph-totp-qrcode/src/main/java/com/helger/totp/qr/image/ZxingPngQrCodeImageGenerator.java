@@ -18,7 +18,12 @@
  */
 package com.helger.totp.qr.image;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.MemoryCacheImageOutputStream;
 
 import org.jspecify.annotations.NullMarked;
 
@@ -77,9 +82,19 @@ public class ZxingPngQrCodeImageGenerator implements IQrCodeImageGenerator
     try
     {
       final BitMatrix aMatrix = m_aWriter.encode (aData.getUri (), BarcodeFormat.QR_CODE, m_nImageSize, m_nImageSize);
-      try (ByteArrayOutputStream aOut = new ByteArrayOutputStream ())
+      final BufferedImage aImage = MatrixToImageWriter.toBufferedImage (aMatrix);
+      try (final ByteArrayOutputStream aOut = new ByteArrayOutputStream ())
       {
-        MatrixToImageWriter.writeToStream (aMatrix, "PNG", aOut);
+        // Deliberately not using MatrixToImageWriter.writeToStream, because that ends up in
+        // ImageIO.createImageOutputStream which caches in a temporary file by default and therefore
+        // fails on a read-only file system.
+        // MemoryCacheImageOutputStream keeps the cache in memory instead.
+        try (final MemoryCacheImageOutputStream aIOS = new MemoryCacheImageOutputStream (aOut))
+        {
+          if (!ImageIO.write (aImage, "PNG", aIOS))
+            throw new IOException ("Could not write an image of format PNG");
+        }
+        // Closing the MemoryCacheImageOutputStream flushed all data to aOut
         return aOut.toByteArray ();
       }
     }

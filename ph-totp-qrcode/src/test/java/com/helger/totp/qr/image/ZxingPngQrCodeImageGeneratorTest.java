@@ -26,10 +26,13 @@ import static org.junit.Assert.fail;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.imageio.ImageIO;
 
+import org.junit.Assume;
 import org.junit.Test;
 
 import com.google.zxing.BarcodeFormat;
@@ -76,6 +79,41 @@ public final class ZxingPngQrCodeImageGeneratorTest
     assertEquals (500, aGen.getImageSize ());
     assertEquals (500, aImage.getWidth ());
     assertEquals (500, aImage.getHeight ());
+  }
+
+  @Test
+  public void testGenerateWithReadOnlyImageIOCacheDirectory () throws QrGenerationException, IOException
+  {
+    // Simulate a read-only file system for the ImageIO temporary file cache
+    final File aCacheDir = Files.createTempDirectory ("phtotp-qr-test").toFile ();
+    try
+    {
+      Assume.assumeTrue ("Failed to make the cache directory read-only", aCacheDir.setWritable (false));
+      // Running as root ignores the file permissions
+      Assume.assumeFalse ("The cache directory is still writable", aCacheDir.canWrite ());
+
+      final boolean bOldUseCache = ImageIO.getUseCache ();
+      final File aOldCacheDir = ImageIO.getCacheDirectory ();
+      try
+      {
+        ImageIO.setUseCache (true);
+        ImageIO.setCacheDirectory (aCacheDir);
+
+        final byte [] aBytes = new ZxingPngQrCodeImageGenerator ().generate (_buildData ());
+        assertNotNull (aBytes);
+        assertTrue (aBytes.length > 0);
+      }
+      finally
+      {
+        ImageIO.setCacheDirectory (aOldCacheDir);
+        ImageIO.setUseCache (bOldUseCache);
+      }
+    }
+    finally
+    {
+      aCacheDir.setWritable (true);
+      Files.deleteIfExists (aCacheDir.toPath ());
+    }
   }
 
   @Test

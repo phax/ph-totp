@@ -155,6 +155,11 @@ codebase by Sam Stevens was MIT-licensed; that attribution is preserved in
 
 # News and Noteworthy
 
+v2.1.1 - 2026-09-26
+* `ZxingPngQrCodeImageGenerator` no longer creates a temporary file while encoding the PNG.
+  The `ImageIO` default of caching in a file made QR code generation fail on a read-only file system.
+  Based on [phoss-smp#567](https://github.com/phax/phoss-smp/issues/567) - thx @dv0gt
+
 v2.1.0 - 2026-09-09
 * Added `ICodeVerifier.getMatchingTimeSlot (String, String)` returning the time slot a code matched, or `null` - the basis for rejecting a replayed one-time password
 * `ICodeVerifier.isValidCode (String, String)` is now a `default` method delegating to `getMatchingTimeSlot`. Custom implementations of `ICodeVerifier` must implement `getMatchingTimeSlot` instead
