@@ -29,7 +29,7 @@
   </parent>
   <groupId>com.helger</groupId>
   <artifactId>ph-totp-bom</artifactId>
-  <version>2.1.2</version>
+  <version>2.1.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>ph-totp-bom</name>
   <description>Bill of Materials for all ph-totp artifacts</description>
@@ -46,7 +46,7 @@
     <connection>scm:git:https://github.com/phax/ph-totp.git</connection>
     <developerConnection>scm:git:https://github.com/phax/ph-totp.git</developerConnection>
     <url>https://github.com/phax/ph-totp</url>
-    <tag>ph-totp-parent-pom-2.1.2</tag>
+    <tag>HEAD</tag>
   </scm>
   <organization>
     <name>Philip Helger</name>
