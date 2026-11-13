@@ -155,6 +155,9 @@ codebase by Sam Stevens was MIT-licensed; that attribution is preserved in
 
 # News and Noteworthy
 
+v2.1.2 - work in progress
+* Added the new submodule `ph-totp-bom` - a Maven Bill of Materials (BOM) that manages the versions of `ph-totp` and `ph-totp-qrcode`
+
 v2.1.1 - 2026-09-26
 * `ZxingPngQrCodeImageGenerator` no longer creates a temporary file while encoding the PNG.
   The `ImageIO` default of caching in a file made QR code generation fail on a read-only file system.

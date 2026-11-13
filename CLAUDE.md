@@ -9,6 +9,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `ph-totp` — TOTP secret/code/time/recovery logic and the `otpauth://` URI builder. **No image dependencies.**
 - `ph-totp-qrcode` — ZXing-based PNG QR code image generator + `data:` URI helper.
 
+Plus `ph-totp-bom` — a Maven BOM managing the versions of the two modules above.
+
 Maven coordinates: `com.helger:ph-totp` and `com.helger:ph-totp-qrcode`. Parent: `com.helger:parent-pom` (Java 17). Originated as a refactor of `samdjstevens/java-totp` 1.7.1 (MIT → Apache 2.0; see `NOTICE.txt`).
 
 ## Build & Test
