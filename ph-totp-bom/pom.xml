@@ -27,7 +27,6 @@
     <version>3.2.0</version>
     <relativePath />
   </parent>
-  <groupId>com.helger</groupId>
   <artifactId>ph-totp-bom</artifactId>
   <version>2.1.3-SNAPSHOT</version>
   <packaging>pom</packaging>
